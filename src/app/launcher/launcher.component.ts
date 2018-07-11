@@ -59,6 +59,13 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _summary: Summary;
   private summaryCompleted: boolean = false;
 
+  private showGitProvider: boolean = false;
+  private showMissionRuntime: boolean = false;
+  private showProjectSummary: boolean = true;
+  private showReleaseStrategy: boolean = false;
+  private showSelectDependencies: boolean = false;
+  private showTargetEnvironment: boolean = false;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private projectSummaryService: ProjectSummaryService) {
@@ -68,7 +75,10 @@ export class LauncherComponent implements AfterViewInit, OnInit {
     setTimeout(() => {
       let params = this.selectionParams;
       let id = (this.selectionParams !== undefined) ? 'GitProvider' : this.firstNonHiddenStep.id;
-      this.stepIndicator.navToStep(id);
+      // this.stepIndicator.navToStep(id);
+      if (id === 'GitProvider') {
+        this.showStep('GitProvider');
+      }
     }, 300);
   }
 
@@ -86,7 +96,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   onInViewportChange($event: any, id: string) {
     if ($event) {
       setTimeout(() => {
-        this._selectedSection = id;
+        // this._selectedSection = id;
       }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
     }
   }
@@ -259,6 +269,62 @@ export class LauncherComponent implements AfterViewInit, OnInit {
     setTimeout(() => {
       this.stepIndicator.navToNextStep(fromStepId);
     }, 10);
+  }
+
+  showStep(id: string): void {
+    this._selectedSection = id;
+    switch (id) {
+      case 'GitProvider':
+        this.showGitProvider = true;
+        this.showMissionRuntime = false;
+        this.showProjectSummary = false;
+        this.showReleaseStrategy = false;
+        this.showSelectDependencies = false;
+        this.showTargetEnvironment = false;
+        break;
+      case 'MissionRuntime':
+        this.showGitProvider = false;
+        this.showMissionRuntime = true;
+        this.showProjectSummary = false;
+        this.showReleaseStrategy = false;
+        this.showSelectDependencies = false;
+        this.showTargetEnvironment = false;
+        break;
+      case 'ProjectSummary':
+        this.showGitProvider = false;
+        this.showMissionRuntime = false;
+        this.showProjectSummary = true;
+        this.showReleaseStrategy = false;
+        this.showSelectDependencies = false;
+        this.showTargetEnvironment = false;
+        break;
+      case 'ReleaseStrategy':
+        this.showGitProvider = false;
+        this.showMissionRuntime = false;
+        this.showProjectSummary = false;
+        this.showReleaseStrategy = true;
+        this.showSelectDependencies = false;
+        this.showTargetEnvironment = false;
+        break;
+      case 'SelectDependencies':
+        this.showGitProvider = false;
+        this.showMissionRuntime = false;
+        this.showProjectSummary = false;
+        this.showReleaseStrategy = false;
+        this.showSelectDependencies = true;
+        this.showTargetEnvironment = false;
+        break;
+      case 'TargetEnvironment':
+        this.showGitProvider = false;
+        this.showMissionRuntime = false;
+        this.showProjectSummary = false;
+        this.showReleaseStrategy = false;
+        this.showSelectDependencies = false;
+        this.showTargetEnvironment = true;
+        break;
+      default:
+        break;
+    }
   }
 
   // Private

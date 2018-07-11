@@ -203,6 +203,13 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
     this.launcherComponent.navToNextStep('ReleaseStrategy');
   }
 
+  showStep(id: string, reset: boolean): void {
+    if (reset) {
+      this.launcherComponent.summary.pipeline = undefined;
+    }
+    this.launcherComponent.showStep(id);
+  }
+
   updatePipelineSelection(pipeline: Pipeline): void {
     this.launcherComponent.summary.pipeline = pipeline;
   }

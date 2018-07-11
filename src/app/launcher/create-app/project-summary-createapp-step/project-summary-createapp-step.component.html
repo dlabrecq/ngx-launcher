@@ -3,8 +3,44 @@
   <fab-toast-notification [notifications]="setUpErrResponse"></fab-toast-notification>
   <div>
     <div class="container-fluid">
+      <!--
       <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'ProjectSummary')"
           [debounce]="500">Confirm Application Summary & Setup</h1>
+      -->
+      <ng-container class="f8launcher-project-summary-application"
+                    *ngIf="showAppNameInput; then appNameEdit else appNameRead"></ng-container>
+      <ng-template #appNameEdit>
+        <div class="f8launcher-project-summary-appname-edit">
+          <input name="applicationTitle" placeholder="New Application" type="text" #projectName="ngModel" size="45"
+                 [(ngModel)]="dependencyCheck.projectName" lowercase validateProjectName required
+                 (keyup.enter)="appNameBtn.click();">
+          <button class="btn btn-primary btn-sm" #appNameBtn
+                  [disabled]="dependencyCheck.projectName === undefined || projectName.invalid && (projectName.dirty || projectName.touched)"
+                  (click)="showAppNameInput = false">
+            <i class="fa fa-check"></i>
+          </button>
+          <button class="btn btn-default btn-sm"
+                  (click)="hideAppNameEdit()">
+            <i class="pficon pficon-close"></i>
+          </button>
+          <div *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)">
+              <span *ngIf="projectName.errors.pattern" class="help-block f8launcher-vertical-bar_application-name-help-text">
+                Please enter a valid Application Name.
+              </span>
+            <span *ngIf="projectName.errors.duplicate" class="help-block f8launcher-vertical-bar_application-name-help-text">
+                Application name is already used. Please enter a new one.
+              </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #appNameRead>
+        <h1 class="f8launcher-project-summary-appname-read">{{applicationName}}
+          <button class="btn"
+                  (click)="showAppNameEdit()">
+            <i class="pficon pficon-edit"></i>
+          </button>
+        </h1>
+      </ng-template>
     </div>
   </div>
   <div>
@@ -26,7 +62,7 @@
                 </h2>
                 <p>To proceed with setting up this application, this section must be completed.</p>
                 <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+                        (click)="showStep('MissionRuntime')">Complete Section</button>
               </div>
             </ng-template>
             <ng-template #showMissionTemplate>
@@ -60,7 +96,7 @@
                 </h2>
                 <p>To proceed with setting up this application, this section must be completed.</p>
                 <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+                        (click)="showStep('MissionRuntime')">Complete Section</button>
               </div>
             </ng-template>
             <ng-template #showRuntimeTemplate>
@@ -105,7 +141,7 @@
               </h2>
               <p>To add additional dependencies, complete this section. Required dependencies are added for you automatically based on your mission and runtime.</p>
               <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('SelectDependencies')">Complete Section</button>
+                      (click)="showStep('SelectDependencies')">Complete Section</button>
             </div>
           </ng-template>
           <ng-template #showDependencyTemplate>
@@ -154,7 +190,7 @@
               </h2>
               <p>To proceed with setting up this application, this section must be completed.</p>
               <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('ReleaseStrategy')">Complete Section</button>
+                      (click)="showStep('ReleaseStrategy')">Complete Section</button>
             </div>
           </ng-template>
           <ng-template #showPipelineTemplate>
@@ -311,7 +347,7 @@
                   <ng-template #showNoTargetTemplate>
                     <div class="col-xs-8 f8launcher-project-summary-data-field">
                       <button class="btn btn-default"
-                              (click)="navToStep('TargetEnvironment')">Complete Section</button>
+                              (click)="showStep('TargetEnvironment')">Complete Section</button>
                     </div>
                   </ng-template>
                   <ng-template #showTargetTemplate>
@@ -342,7 +378,7 @@
               </h2>
               <p>To proceed with setting up this application, this section must be completed.</p>
               <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('GitProvider')">Complete Section</button>
+                      (click)="showStep('GitProvider')">Complete Section</button>
             </div>
           </ng-template>
           <ng-template #showGitHubTemplate>
@@ -396,6 +432,10 @@
       <button class="btn btn-primary btn-xlarge"
               [disabled]="!completed"
               (click)="setup()">Set Up Application</button>
+      <button class="btn btn-default btn-xlarge"
+              (click)="launcherComponent.cancel()">
+        Cancel
+      </button>
     </div>
   </div>
 </section>

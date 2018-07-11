@@ -86,9 +86,17 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
       username: 'login'
     }
   })
+
   navToNextStep(): void {
     this.launcherComponent.navToNextStep('GitProvider');
     const summary = this.launcherComponent.summary;
+  }
+
+  showStep(id: string, reset: boolean): void {
+    if (reset) {
+      this.launcherComponent.summary.gitHubDetails.repository = undefined;
+    }
+    this.launcherComponent.showStep(id);
   }
 
   /**

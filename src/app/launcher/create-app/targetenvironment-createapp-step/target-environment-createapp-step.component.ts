@@ -102,6 +102,13 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     this.launcherComponent.navToNextStep('TargetEnvironment');
   }
 
+  showStep(id: string, reset: boolean): void {
+    if (reset) {
+      this.launcherComponent.summary.targetEnvironment = undefined;
+    }
+    this.launcherComponent.showStep(id);
+  }
+
   selectCluster(cluster?: Cluster): void {
     this.launcherComponent.summary.cluster = cluster;
     this.broadcaster.broadcast('cluster', cluster);

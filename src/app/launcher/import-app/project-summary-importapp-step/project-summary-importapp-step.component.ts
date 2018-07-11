@@ -33,6 +33,8 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   @Input() id: string;
 
   public setUpErrResponse: Array<any> = [];
+  public savedProjectName: string;
+  public showAppNameInput: boolean = false;
   private subscriptions: Subscription[] = [];
   private spaceId: string;
   private spaceName: string;
@@ -64,6 +66,10 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   }
 
   // Accessors
+
+  get applicationName(): string {
+    return (this.dependencyCheck.projectName !== undefined) ? this.dependencyCheck.projectName : 'New Application';
+  }
 
   /**
    * Returns indicator that step is completed
@@ -99,6 +105,10 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
    */
   navToStep(id: string) {
     this.launcherComponent.stepIndicator.navToStep(id);
+  }
+
+  showStep(id: string) {
+    this.launcherComponent.showStep(id);
   }
 
   /**
@@ -152,6 +162,16 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
     this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
     this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
+  }
+
+  private hideAppNameEdit(): void {
+    this.dependencyCheck.projectName = this.savedProjectName;
+    this.showAppNameInput = false;
+  }
+
+  private showAppNameEdit(): void {
+    this.savedProjectName = this.dependencyCheck.projectName;
+    this.showAppNameInput = true;
   }
 
   private toggleExpanded(pipeline: Pipeline) {

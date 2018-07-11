@@ -7,46 +7,62 @@
       <div *ngIf="showNextSteps; then showCreateAppNextStepsTemplate else showCreateAppStepsTemplate"></div>
       <!-- Create application steps -->
       <ng-template #showCreateAppStepsTemplate>
+        <!--
         <div class="f8launcher-container_nav">
           <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
         </div>
+        -->
         <div class="f8launcher-container_main">
-          <f8launcher-targetenvironment-createapp-step #targetEnvStep
-            [hidden]="flow === 'osio'"
-            [id]="'TargetEnvironment'"
-            [styleClass]="'target-environment'"
-            [title]="'Select Target Environment'">
-          </f8launcher-targetenvironment-createapp-step>
-          <f8launcher-missionruntime-createapp-step #missionRuntimeStep
-            [id]="'MissionRuntime'"
-            [styleClass]="'mission-runtime'"
-            [title]="'Select Mission & Runtime'">
-          </f8launcher-missionruntime-createapp-step>
-          <!-- Place holder for Dependency Checker -->
-          <f8launcher-dependencychecker-createapp-step
-            [hidden]="flow === 'launch' || depEditorFlag !== true"
-            [id]="'SelectDependencies'"
-            [styleClass]="'select-dependencies'"
-            [title]="'Select Dependencies'">
-          </f8launcher-dependencychecker-createapp-step>
-          <f8launcher-releasestrategy-createapp-step
-            [hidden]="flow === 'launch'"
-            [id]="'ReleaseStrategy'"
-            [styleClass]="'release-strategy'"
-            [title]="'Select Pipeline'">
-          </f8launcher-releasestrategy-createapp-step>
-          <f8launcher-gitprovider-createapp-step
-            [hidden]="flow === 'launch' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed === true)"
-            [id]="'GitProvider'"
-            [styleClass]="'git-provider'"
-            [title]="'Authorize Git Provider'">
-          </f8launcher-gitprovider-createapp-step>
-          <f8launcher-projectsummary-createapp-step
-            [id]="'ProjectSummary'"
-            [styleClass]="'project-summary'"
-            [title]="'Confirm Application Summary & Setup'"
-            [depEditorFlag]="depEditorFlag">
-          </f8launcher-projectsummary-createapp-step>
+          <!-- Containers are hidden seperately because the completed check tests if components are omitted (i.e., hidden) from the workflow -->
+          <div [hidden]="!showTargetEnvironment">
+            <f8launcher-targetenvironment-createapp-step #targetEnvStep
+              [hidden]="flow === 'osio'"
+              [id]="'TargetEnvironment'"
+              [styleClass]="'target-environment'"
+              [title]="'Select Target Environment'">
+            </f8launcher-targetenvironment-createapp-step>
+          </div>
+          <div [hidden]="!showMissionRuntime">
+            <f8launcher-missionruntime-createapp-step #missionRuntimeStep
+              [id]="'MissionRuntime'"
+              [styleClass]="'mission-runtime'"
+              [title]="'Select Mission & Runtime'">
+            </f8launcher-missionruntime-createapp-step>
+          </div>
+          <!-- too buggy
+          <div [hidden]="!showSelectDependencies">
+            <f8launcher-dependencychecker-createapp-step
+              [hidden]="flow === 'launch' || depEditorFlag !== true"
+              [id]="'SelectDependencies'"
+              [styleClass]="'select-dependencies'"
+              [title]="'Select Dependencies'">
+            </f8launcher-dependencychecker-createapp-step>
+          </div>
+          -->
+          <div [hidden]="!showReleaseStrategy">
+            <f8launcher-releasestrategy-createapp-step
+              [hidden]="flow === 'launch'"
+              [id]="'ReleaseStrategy'"
+              [styleClass]="'release-strategy'"
+              [title]="'Select Pipeline'">
+            </f8launcher-releasestrategy-createapp-step>
+          </div>
+          <div [hidden]="!showGitProvider">
+            <f8launcher-gitprovider-createapp-step
+              [hidden]="flow === 'launch' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed === true)"
+              [id]="'GitProvider'"
+              [styleClass]="'git-provider'"
+              [title]="'Authorize Git Provider'">
+            </f8launcher-gitprovider-createapp-step>
+          </div>
+          <div [hidden]="!showProjectSummary">
+            <f8launcher-projectsummary-createapp-step
+              [id]="'ProjectSummary'"
+              [styleClass]="'project-summary'"
+              [title]="'Confirm Application Summary & Setup'"
+              [depEditorFlag]="depEditorFlag">
+            </f8launcher-projectsummary-createapp-step>
+          </div>
         </div>
         <div class="f8launcher-container_close">
           <div class="sticky close animate-continue">
@@ -68,27 +84,36 @@
     <ng-template #showImportAppTemplate>
       <div *ngIf="showNextSteps; then showImportAppNextStepsTemplate else showImportAppStepsTemplate"></div>
       <ng-template #showImportAppStepsTemplate>
+        <!--
         <div class="f8launcher-container_nav">
           <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
         </div>
+        -->
         <div class="f8launcher-container_main">
           <section class="f8launcher-container_main--spacer"></section>
-          <f8launcher-gitprovider-importapp-step
-            [id]="'GitProvider'"
-            [styleClass]="'git-provider'"
-            [title]="'Authorize Git Provider'">
-          </f8launcher-gitprovider-importapp-step>
-          <f8launcher-releasestrategy-importapp-step
-            [id]="'ReleaseStrategy'"
-            [optional]="true"
-            [styleClass]="'release-strategy'"
-            [title]="'Select Pipeline'">
-          </f8launcher-releasestrategy-importapp-step>
-          <f8launcher-projectsummary-importapp-step
-            [id]="'ProjectSummary'"
-            [styleClass]="'project-summary'"
-            [title]="'Confirm Application Summary & Import'">
-          </f8launcher-projectsummary-importapp-step>
+          <!-- Containers are hidden seperately because the completed check tests if components are omitted (i.e., hidden) from the workflow -->
+          <div [hidden]="!showReleaseStrategy">
+            <f8launcher-releasestrategy-importapp-step
+              [id]="'ReleaseStrategy'"
+              [optional]="false"
+              [styleClass]="'release-strategy'"
+              [title]="'Select Pipeline'">
+            </f8launcher-releasestrategy-importapp-step>
+          </div>
+          <div [hidden]="!showGitProvider">
+            <f8launcher-gitprovider-importapp-step
+                [id]="'GitProvider'"
+                [styleClass]="'git-provider'"
+                [title]="'Authorize Git Provider'">
+            </f8launcher-gitprovider-importapp-step>
+          </div>
+          <div [hidden]="!showProjectSummary">
+            <f8launcher-projectsummary-importapp-step
+              [id]="'ProjectSummary'"
+              [styleClass]="'project-summary'"
+              [title]="'Confirm Application Summary & Import'">
+            </f8launcher-projectsummary-importapp-step>
+          </div>
         </div>
         <div class="f8launcher-container_close">
           <div class="sticky close">

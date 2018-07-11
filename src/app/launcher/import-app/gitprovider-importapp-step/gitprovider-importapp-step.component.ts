@@ -92,6 +92,13 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
     this.launcherComponent.navToNextStep('GitProvider');
   }
 
+  showStep(id: string, reset: boolean): void {
+    if (reset) {
+      this.launcherComponent.summary.gitHubDetails.repository = undefined;
+    }
+    this.launcherComponent.showStep(id);
+  }
+
   /**
    * Authorize GitHub account
    *

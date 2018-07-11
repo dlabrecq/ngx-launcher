@@ -2,10 +2,13 @@
          [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
+      <!--
       <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'MissionRuntime')"
           [debounce]="500">
         Select Mission & Runtime
       </h1>
+      -->
+      <h1>Select Mission & Runtime</h1>
       <div class="col-xs-12 col-md-6 f8launcher-section-mission-runtime-desp">
         <p>
           Choose a mission and runtime to create a booster, or sample application. You set up a booster to generate
@@ -94,7 +97,7 @@
                     <input type="radio" name="mission"
                            [disabled]="mission.disabled"
                            [(ngModel)]="missionId"
-                           [value]="mission.id"
+                           [value]="mission?.id"
                            (ngModelChange)="selectBooster(mission)">
                   </div>
                   <div class="list-view-pf-main-info"
@@ -187,7 +190,7 @@
                     <input name="runtime" type="radio"
                            [disabled]="runtime.disabled"
                            [(ngModel)]="runtimeId"
-                           [value]="runtime.id"
+                           [value]="runtime?.id"
                            (ngModelChange)="selectBooster(null, runtime)">
                   </div>
                   <div class="list-view-pf-main-info"
@@ -249,14 +252,16 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-link"
+        <button class="btn btn-primary"
               class.animate-continue="completed"
               [disabled]="!completed"
-              (click)="navToNextStep()">
-          <span class="fa-stack fa-2x">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-angle-double-down fa-stack-1x fa-inverse"></i>
-          </span>
+              (click)="showStep('ProjectSummary', false)">
+          Save
+        </button>
+        <button class="btn btn-default"
+                class.animate-continue="completed"
+                (click)="showStep('ProjectSummary', true)">
+          Cancel
         </button>
       </div>
     </div>

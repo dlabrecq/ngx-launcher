@@ -125,8 +125,16 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       runtime: 'runtime.name'
     }
   })
+
   navToNextStep(): void {
     this.launcherComponent.navToNextStep('MissionRuntime');
+  }
+
+  showStep(id: string, reset: boolean): void {
+    if (reset) {
+      this.resetSelections();
+    }
+    this.launcherComponent.showStep(id);
   }
 
   /**
@@ -200,19 +208,22 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private updateBoosterViewStatus(): void {
     this._cluster = this.getSelectedCluster();
     this._missions.forEach(mission => {
-      let availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
-        this._cluster, mission.id);
-      if (availableBoosters.empty) {
-        mission.shrinked = true;
-      } else {
-        availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
-          this._cluster, mission.id, this.runtimeId, this.versionId);
-      }
-      mission.disabled = availableBoosters.empty;
-      mission.disabledReason = availableBoosters.emptyReason;
-      mission.community = this.launcherComponent.flow === 'osio' && !mission.disabled && this.versionId === 'community';
-      if (this.missionId === mission.id && availableBoosters.empty) {
-        this.clearMission();
+      if (mission.id !== 'blank-mission') {
+        let availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
+          this._cluster, mission.id);
+        if (availableBoosters.empty) {
+          mission.shrinked = true;
+        } else {
+          availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
+            this._cluster, mission.id, this.runtimeId, this.versionId);
+        }
+        mission.disabled = availableBoosters.empty;
+        mission.disabledReason = availableBoosters.emptyReason;
+        mission.community = this.launcherComponent.flow === 'osio'
+          && !mission.disabled && this.versionId === 'community';
+        if (this.missionId === mission.id && availableBoosters.empty) {
+          this.clearMission();
+        }
       }
     });
     this._runtimes.forEach(runtime => {
