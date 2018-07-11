@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../src/app/launcher/model/cluster.model.ts"],"names":[],"mappings":"AAAA;IAAA;IAKA,CAAC;IAAD,cAAC;AAAD,CALA,AAKC,IAAA","file":"cluster.model.js","sourceRoot":"","sourcesContent":["export class Cluster {\n  id: string;\n  name: string;\n  type: string;\n  connected: boolean;\n}\n"]}

@@ -1,0 +1,25 @@
+<div class="cancel-overlay" *ngIf="launcherComponent.showCancelOverlay === true">
+  <div class="cancel-overlay-form">
+    <form class="col-sm-4 col-sm-offset-4 cancel-overlay-form--step active" role="form">
+      <section>
+        <form class="form" #spaceForm="ngForm">
+          <h1 class="cancel-overlay-form--step_title">Are You Sure?</h1>
+          <p>
+            Are you sure that you want to navigate away from this page? You will lose any information entered thus far.
+          </p>
+          <p>
+            Do you want to leave?
+          </p>
+        </form>
+      </section>
+      <footer class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 cancel-overlay-form--step_tool-bar button-right">
+            <button id="confirmCancelButton" class="btn btn-primary" aria-label="Leave" (click)="cancelConfirmed()">Yes, Leave</button>
+            <button id="cancelCancelButton" class="btn btn-outline" aria-label="Stay" (click)="cancelAborted()">No, Stay</button>
+          </div>
+        </div>
+      </footer>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../src/app/launcher/model/mission.model.ts"],"names":[],"mappings":"AAAA;IAAA;IAKA,CAAC;IAAD,cAAC;AAAD,CALA,AAKC,IAAA","file":"mission.model.js","sourceRoot":"","sourcesContent":["export class Mission {\n  id: string;\n  name: string;\n  description?: string;\n  meta?: any;\n}\n"]}

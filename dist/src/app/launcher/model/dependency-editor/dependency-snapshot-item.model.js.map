@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../src/app/launcher/model/dependency-editor/dependency-snapshot-item.model.ts"],"names":[],"mappings":"AAAA;IAAA;IAGA,CAAC;IAAD,6BAAC;AAAD,CAHA,AAGC,IAAA","file":"dependency-snapshot-item.model.js","sourceRoot":"","sourcesContent":["export class DependencySnapshotItem {\n    package: string;\n    version: string;\n}\n"]}
